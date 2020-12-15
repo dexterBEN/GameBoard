@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-GameboardApplication<gameboard>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "mainClass": "com.dexlab.gameboard.GameboardApplication",
+            "projectName": "gameboard",
+            "args": ""
+        }
+    ]
+}
