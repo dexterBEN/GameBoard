@@ -17,14 +17,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -34,10 +38,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Entity
 @Table(name = "gameSheet")
 public class GameSheet {
-
-    public GameSheet() {
-
-    }
 
     public static enum AgeRestriction {
         PEGI_3("PEGI_3"), PEGI_7("PEGI_7"), PEGI_12("PEGI_3"), PEGI_16("PEGI_16"), PEGI_18("PEGI_18");
@@ -59,8 +59,13 @@ public class GameSheet {
         }
     }
 
+    /*@ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JoinColumn(name = "studio_id")
+    @JsonBackReference
+    private Studio studio;*/
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @NotBlank
@@ -72,7 +77,7 @@ public class GameSheet {
     private String platform;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "age_restriction", nullable = true)
+    @Column(name = "age_restriction", nullable = false)
     private AgeRestriction AgeRestriction;
 
     
@@ -89,6 +94,9 @@ public class GameSheet {
     @Column(name = "update_date")
     private Date updatedDate;
 
+
+    public GameSheet() {
+    }
 
     public GameSheet(int id, String title, String platform, AgeRestriction AgeRestriction, String jacketPathRef, Date creationDate, Date updatedDate) {
         this.id = id;
@@ -219,9 +227,8 @@ public class GameSheet {
             ", updatedDate='" + getUpdatedDate() + "'" +
             "}";
     }
-    
 
-    
+
     //private List <String> editors; //NDT: create entity editor
 
     /*public List<String> getEditors() {

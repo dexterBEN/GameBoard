@@ -20,11 +20,16 @@ import java.awt.image.BufferedImage;
 import java.awt.Image;
 
 import com.dexlab.gameboard.model.GameSheet;
+import com.dexlab.gameboard.model.Studio;
 import com.dexlab.gameboard.model.GameSheet.AgeRestriction;
 import com.dexlab.gameboard.service.GameSheetService;
+import com.dexlab.gameboard.service.StudioService;
 import com.sun.tools.javac.Main;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,6 +47,9 @@ public class GameSheetController {
     @Autowired
     GameSheetService gameSheetService;
 
+    /*@Autowired
+    StudioService studioService;*/
+
     @GetMapping(path = "/")
     @ResponseBody
     public String rootTest() {
@@ -53,18 +61,16 @@ public class GameSheetController {
     @ResponseBody
     public Iterable<GameSheet> getAllSheet() {
 
-        List<String> sheets = new ArrayList<>();
         gameSheetService.getAllSheetIterable().forEach(s ->{
             
             File file = new File(s.getJacketPathRef());
-
             try {
-               s.setJacketPathRef(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file)));
+                s.setJacketPathRef(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file)));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
+            // System.out.println(s.getStudio().getDirector());
         });
 
         return gameSheetService.getAllSheetIterable();
@@ -73,15 +79,18 @@ public class GameSheetController {
     @PostMapping(path = "/gamesheet/create")
     @ResponseBody
     public String createSheet(
-        @RequestParam("title") String title, @RequestParam("platform") String platform,
-        @RequestParam("age_restriction") AgeRestriction ageRestriction, @RequestParam("jacket") MultipartFile jacket
+        @RequestParam("title") String title, 
+        @RequestParam("platform") String platform,
+        @RequestParam("age_restriction") AgeRestriction ageRestriction, 
+        @RequestParam("jacket") MultipartFile jacket
     ) {
 
         GameSheet gameSheet = new GameSheet();
         String pathFolder = "C:\\Users\\dexbe\\Documents\\GameBoard\\backend\\gameboard\\src\\main\\resources\\static\\";
         System.out.println(jacket.getOriginalFilename());
-        
 
+        //Studio studio = studioService.findByName(studioName);
+        
         try {
             
             jacket.transferTo(new File(pathFolder+jacket.getOriginalFilename()));
@@ -94,23 +103,10 @@ public class GameSheetController {
         gameSheet.setPlatform(platform);
         gameSheet.setAgeRestriction(ageRestriction);
         gameSheet.setJacketPathRef(pathFolder+jacket.getOriginalFilename());
+        //gameSheet.setStudio(studio);
 
 
         gameSheetService.createGameSheet(gameSheet);
-
-        
-
-        // try {
-            
-        //     blob = new SerialBlob(jacket.getBytes());
-        //     gameSheet.setJacketFile(blob);
-    
-        //     gameSheetService.createGameSheet(gameSheet);
-        // } catch (Exception e) {
-        //     //TODO: handle exception
-        //     System.out.println(e);
-        // }
-
         return "sheet registered";
     }
 
