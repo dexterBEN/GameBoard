@@ -19,4 +19,16 @@ public class GameSheetService{
         return gameSheetRepository.findAll();
     }
 
+    public GameSheet findById(int id){
+        return gameSheetRepository.getOne(id);
+    }
+
+    public void deleteSheetById(int id){
+        gameSheetRepository.deleteById(id);
+    }
+
+    // public void resetId(int id){
+    //     gameSheetRepository.resetId(id);
+    // }
+
 }

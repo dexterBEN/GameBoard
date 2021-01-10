@@ -11,11 +11,13 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -44,13 +46,12 @@ public class GameSheet {
         }
     }
 
-    /*@ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "studio_id")
-    @JsonBackReference
-    private Studio studio;*/
+    @ManyToOne
+    @JsonManagedReference
+    private Studio studio;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotBlank
@@ -80,10 +81,12 @@ public class GameSheet {
     private Date updatedDate;
 
 
+
     public GameSheet() {
     }
 
-    public GameSheet(int id, String title, String platform, AgeRestriction AgeRestriction, String jacketPathRef, Date creationDate, Date updatedDate) {
+    public GameSheet(Studio studio, int id, String title, String platform, AgeRestriction AgeRestriction, String jacketPathRef, Date creationDate, Date updatedDate) {
+        this.studio = studio;
         this.id = id;
         this.title = title;
         this.platform = platform;
@@ -91,6 +94,14 @@ public class GameSheet {
         this.jacketPathRef = jacketPathRef;
         this.creationDate = creationDate;
         this.updatedDate = updatedDate;
+    }
+
+    public Studio getStudio() {
+        return this.studio;
+    }
+
+    public void setStudio(Studio studio) {
+        this.studio = studio;
     }
 
     public int getId() {
@@ -149,6 +160,11 @@ public class GameSheet {
         this.updatedDate = updatedDate;
     }
 
+    public GameSheet studio(Studio studio) {
+        this.studio = studio;
+        return this;
+    }
+
     public GameSheet id(int id) {
         this.id = id;
         return this;
@@ -192,18 +208,19 @@ public class GameSheet {
             return false;
         }
         GameSheet gameSheet = (GameSheet) o;
-        return id == gameSheet.id && Objects.equals(title, gameSheet.title) && Objects.equals(platform, gameSheet.platform) && Objects.equals(AgeRestriction, gameSheet.AgeRestriction) && Objects.equals(jacketPathRef, gameSheet.jacketPathRef) && Objects.equals(creationDate, gameSheet.creationDate) && Objects.equals(updatedDate, gameSheet.updatedDate);
+        return Objects.equals(studio, gameSheet.studio) && id == gameSheet.id && Objects.equals(title, gameSheet.title) && Objects.equals(platform, gameSheet.platform) && Objects.equals(AgeRestriction, gameSheet.AgeRestriction) && Objects.equals(jacketPathRef, gameSheet.jacketPathRef) && Objects.equals(creationDate, gameSheet.creationDate) && Objects.equals(updatedDate, gameSheet.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, platform, AgeRestriction, jacketPathRef, creationDate, updatedDate);
+        return Objects.hash(studio, id, title, platform, AgeRestriction, jacketPathRef, creationDate, updatedDate);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
+            " studio='" + getStudio() + "'" +
+            ", id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", platform='" + getPlatform() + "'" +
             ", AgeRestriction='" + getAgeRestriction() + "'" +
@@ -212,21 +229,6 @@ public class GameSheet {
             ", updatedDate='" + getUpdatedDate() + "'" +
             "}";
     }
-
-
-    //private List <String> editors; //NDT: create entity editor
-
-    /*public List<String> getEditors() {
-        return this.editors;
-    }
-
-    public void setEditors(List<String> editors) {
-        this.editors = editors;
-    }*/
-
-    /*@CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
-    private Date realeaseDate;*/
+    
 
 }

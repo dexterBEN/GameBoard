@@ -4,23 +4,27 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import java.io.Serializable;
+import java.util.Collection;
 import java.util.Objects;
 import javax.persistence.Column;
 
 @Entity
 @Table(name="studio")
-public class Studio {
+public class Studio implements Serializable{
 
-    // @OneToMany(mappedBy = "studio", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    // @JsonManagedReference
-    // private Set<GameSheet> gameSheets;
+    @OneToMany(mappedBy = "studio")
+    @JsonBackReference
+    private Collection<GameSheet> gameSheets;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
     @NotBlank
@@ -47,13 +51,22 @@ public class Studio {
     public Studio() {
     }
 
-    public Studio(int id, String name, String director, String headQuarter, String description, String logoPathRef) {
+    public Studio(Collection<GameSheet> gameSheets, int id, String name, String director, String headQuarter, String description, String logoPathRef) {
+        this.gameSheets = gameSheets;
         this.id = id;
         this.name = name;
         this.director = director;
         this.headQuarter = headQuarter;
         this.description = description;
         this.logoPathRef = logoPathRef;
+    }
+
+    public Collection<GameSheet> getGameSheets() {
+        return this.gameSheets;
+    }
+
+    public void setGameSheets(Collection<GameSheet> gameSheets) {
+        this.gameSheets = gameSheets;
     }
 
     public int getId() {
@@ -104,6 +117,11 @@ public class Studio {
         this.logoPathRef = logoPathRef;
     }
 
+    public Studio gameSheets(Collection<GameSheet> gameSheets) {
+        this.gameSheets = gameSheets;
+        return this;
+    }
+
     public Studio id(int id) {
         this.id = id;
         return this;
@@ -142,18 +160,19 @@ public class Studio {
             return false;
         }
         Studio studio = (Studio) o;
-        return id == studio.id && Objects.equals(name, studio.name) && Objects.equals(director, studio.director) && Objects.equals(headQuarter, studio.headQuarter) && Objects.equals(description, studio.description) && Objects.equals(logoPathRef, studio.logoPathRef);
+        return Objects.equals(gameSheets, studio.gameSheets) && id == studio.id && Objects.equals(name, studio.name) && Objects.equals(director, studio.director) && Objects.equals(headQuarter, studio.headQuarter) && Objects.equals(description, studio.description) && Objects.equals(logoPathRef, studio.logoPathRef);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, director, headQuarter, description, logoPathRef);
+        return Objects.hash(gameSheets, id, name, director, headQuarter, description, logoPathRef);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
+            " gameSheets='" + getGameSheets() + "'" +
+            ", id='" + getId() + "'" +
             ", name='" + getName() + "'" +
             ", director='" + getDirector() + "'" +
             ", headQuarter='" + getHeadQuarter() + "'" +
@@ -161,5 +180,6 @@ public class Studio {
             ", logoPathRef='" + getLogoPathRef() + "'" +
             "}";
     }
+    
 
 }
