@@ -32,6 +32,16 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
+        run: flutter channel beta
+        working-directory: ${{env.working-directory}}
+        
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: flutter upgrade
+        working-directory: ${{env.working-directory}}
+        
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
         run: flutter config --enable-web
         working-directory: ${{env.working-directory}}
 
