@@ -49,6 +49,12 @@ jobs:
       - name: Run a one-line script
         run: flutter pub get
         working-directory: ${{env.working-directory}}
+        
+      # Runs a set of commands using the runners shell
+      - name: Run a one-line script
+        run: ls
+        working-directory: ${{env.working-directory}}
+        
          
       # Runs a set of commands using the runners shell
       - name: Run a one-line script
