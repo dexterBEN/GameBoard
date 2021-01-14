@@ -42,10 +42,6 @@ jobs:
     - run: flutter format --set-exit-if-changed .
       working-directory: ${{env.working-directory}}
     
-    # Statically analyze the Dart code for any errors.
-    - run: flutter analyze .
-      working-directory: ${{env.working-directory}}
-    
     # Build for web
     - run: flutter build web
       working-directory: ${{env.working-directory}}
