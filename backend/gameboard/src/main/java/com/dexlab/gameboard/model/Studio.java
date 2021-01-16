@@ -4,11 +4,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import org.hibernate.validator.constraints.Length;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -41,6 +44,7 @@ public class Studio implements Serializable{
 
     @NotBlank
     @Column(nullable = false)
+    @Lob
     private String description;
 
     @NotBlank
