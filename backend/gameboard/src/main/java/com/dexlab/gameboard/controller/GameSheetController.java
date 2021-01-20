@@ -1,39 +1,26 @@
 package com.dexlab.gameboard.controller;
 
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.sql.Blob;
-import java.util.ArrayList;
 import java.util.Base64;
-import java.util.List;
-
-import javax.imageio.ImageIO;
-import javax.sql.rowset.serial.SerialBlob;
-import java.awt.image.BufferedImage;
-import java.awt.Image;
-
+import org.springframework.http.HttpStatus;
 import com.dexlab.gameboard.model.GameSheet;
+import com.dexlab.gameboard.model.Studio;
 import com.dexlab.gameboard.model.GameSheet.AgeRestriction;
 import com.dexlab.gameboard.service.GameSheetService;
-import com.sun.tools.javac.Main;
+import com.dexlab.gameboard.service.StudioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 
 @RestController
 @CrossOrigin
@@ -41,6 +28,9 @@ public class GameSheetController {
 
     @Autowired
     GameSheetService gameSheetService;
+
+    @Autowired
+    StudioService studioService;
 
     @GetMapping(path = "/")
     @ResponseBody
@@ -53,18 +43,16 @@ public class GameSheetController {
     @ResponseBody
     public Iterable<GameSheet> getAllSheet() {
 
-        List<String> sheets = new ArrayList<>();
         gameSheetService.getAllSheetIterable().forEach(s ->{
             
             File file = new File(s.getJacketPathRef());
-
             try {
-               s.setJacketPathRef(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file)));
+                s.setJacketPathRef(Base64.getEncoder().encodeToString(FileUtils.readFileToByteArray(file)));
             } catch (IOException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-            
+            // System.out.println(s.getStudio().getDirector());
         });
 
         return gameSheetService.getAllSheetIterable();
@@ -73,15 +61,19 @@ public class GameSheetController {
     @PostMapping(path = "/gamesheet/create")
     @ResponseBody
     public String createSheet(
-        @RequestParam("title") String title, @RequestParam("platform") String platform,
-        @RequestParam("age_restriction") AgeRestriction ageRestriction, @RequestParam("jacket") MultipartFile jacket
+        @RequestParam("title") String title, 
+        @RequestParam("platform") String platform,
+        @RequestParam("age_restriction") AgeRestriction ageRestriction, 
+        @RequestParam("jacket") MultipartFile jacket,
+        @RequestParam("studio_name") String studioName
     ) {
 
         GameSheet gameSheet = new GameSheet();
         String pathFolder = "C:\\Users\\dexbe\\Documents\\GameBoard\\backend\\gameboard\\src\\main\\resources\\static\\";
         System.out.println(jacket.getOriginalFilename());
-        
 
+        Studio studio = studioService.findByName(studioName);
+        
         try {
             
             jacket.transferTo(new File(pathFolder+jacket.getOriginalFilename()));
@@ -94,24 +86,24 @@ public class GameSheetController {
         gameSheet.setPlatform(platform);
         gameSheet.setAgeRestriction(ageRestriction);
         gameSheet.setJacketPathRef(pathFolder+jacket.getOriginalFilename());
+        gameSheet.setStudio(studio);
 
 
         gameSheetService.createGameSheet(gameSheet);
-
-        
-
-        // try {
-            
-        //     blob = new SerialBlob(jacket.getBytes());
-        //     gameSheet.setJacketFile(blob);
-    
-        //     gameSheetService.createGameSheet(gameSheet);
-        // } catch (Exception e) {
-        //     //TODO: handle exception
-        //     System.out.println(e);
-        // }
-
         return "sheet registered";
+    }
+
+    @PostMapping(path ="/gamesheet/delete/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public String deleteSheetById(@PathVariable("id") String id){
+
+        int gameSheetId = Integer.parseInt(id);
+
+        GameSheet gs = gameSheetService.findById(gameSheetId);
+        //gameSheetService.resetId(gs.getId());
+        
+        gameSheetService.deleteSheetById(gs.getId());
+        return "ok";
     }
 
 

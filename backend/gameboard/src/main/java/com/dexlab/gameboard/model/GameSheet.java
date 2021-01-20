@@ -1,43 +1,30 @@
 package com.dexlab.gameboard.model;
 
-import java.sql.Blob;
-import java.sql.SQLException;
 import java.util.Arrays;
-import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 @Table(name = "gameSheet")
 public class GameSheet {
-
-    public GameSheet() {
-
-    }
 
     public static enum AgeRestriction {
         PEGI_3("PEGI_3"), PEGI_7("PEGI_7"), PEGI_12("PEGI_3"), PEGI_16("PEGI_16"), PEGI_18("PEGI_18");
@@ -59,6 +46,10 @@ public class GameSheet {
         }
     }
 
+    @ManyToOne
+    @JsonManagedReference
+    private Studio studio;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
@@ -72,7 +63,7 @@ public class GameSheet {
     private String platform;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "age_restriction", nullable = true)
+    @Column(name = "age_restriction", nullable = false)
     private AgeRestriction AgeRestriction;
 
     
@@ -90,7 +81,12 @@ public class GameSheet {
     private Date updatedDate;
 
 
-    public GameSheet(int id, String title, String platform, AgeRestriction AgeRestriction, String jacketPathRef, Date creationDate, Date updatedDate) {
+
+    public GameSheet() {
+    }
+
+    public GameSheet(Studio studio, int id, String title, String platform, AgeRestriction AgeRestriction, String jacketPathRef, Date creationDate, Date updatedDate) {
+        this.studio = studio;
         this.id = id;
         this.title = title;
         this.platform = platform;
@@ -98,6 +94,14 @@ public class GameSheet {
         this.jacketPathRef = jacketPathRef;
         this.creationDate = creationDate;
         this.updatedDate = updatedDate;
+    }
+
+    public Studio getStudio() {
+        return this.studio;
+    }
+
+    public void setStudio(Studio studio) {
+        this.studio = studio;
     }
 
     public int getId() {
@@ -156,6 +160,11 @@ public class GameSheet {
         this.updatedDate = updatedDate;
     }
 
+    public GameSheet studio(Studio studio) {
+        this.studio = studio;
+        return this;
+    }
+
     public GameSheet id(int id) {
         this.id = id;
         return this;
@@ -199,18 +208,19 @@ public class GameSheet {
             return false;
         }
         GameSheet gameSheet = (GameSheet) o;
-        return id == gameSheet.id && Objects.equals(title, gameSheet.title) && Objects.equals(platform, gameSheet.platform) && Objects.equals(AgeRestriction, gameSheet.AgeRestriction) && Objects.equals(jacketPathRef, gameSheet.jacketPathRef) && Objects.equals(creationDate, gameSheet.creationDate) && Objects.equals(updatedDate, gameSheet.updatedDate);
+        return Objects.equals(studio, gameSheet.studio) && id == gameSheet.id && Objects.equals(title, gameSheet.title) && Objects.equals(platform, gameSheet.platform) && Objects.equals(AgeRestriction, gameSheet.AgeRestriction) && Objects.equals(jacketPathRef, gameSheet.jacketPathRef) && Objects.equals(creationDate, gameSheet.creationDate) && Objects.equals(updatedDate, gameSheet.updatedDate);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, platform, AgeRestriction, jacketPathRef, creationDate, updatedDate);
+        return Objects.hash(studio, id, title, platform, AgeRestriction, jacketPathRef, creationDate, updatedDate);
     }
 
     @Override
     public String toString() {
         return "{" +
-            " id='" + getId() + "'" +
+            " studio='" + getStudio() + "'" +
+            ", id='" + getId() + "'" +
             ", title='" + getTitle() + "'" +
             ", platform='" + getPlatform() + "'" +
             ", AgeRestriction='" + getAgeRestriction() + "'" +
@@ -220,21 +230,5 @@ public class GameSheet {
             "}";
     }
     
-
-    
-    //private List <String> editors; //NDT: create entity editor
-
-    /*public List<String> getEditors() {
-        return this.editors;
-    }
-
-    public void setEditors(List<String> editors) {
-        this.editors = editors;
-    }*/
-
-    /*@CreationTimestamp
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(name = "creation_date")
-    private Date realeaseDate;*/
 
 }
