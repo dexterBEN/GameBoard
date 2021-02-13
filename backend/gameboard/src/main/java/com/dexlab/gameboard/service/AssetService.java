@@ -62,9 +62,9 @@ public class AssetService {
 
     }
 
-    public void createDocument(String documentName, Map<String, Object> documentData) {
+    public void createDocument(String collectionName,String documentName, Map<String, Object> documentData) {
         Firestore firestore = FirestoreClient.getFirestore();
-        ApiFuture<WriteResult> future = firestore.collection("game_jacket").document(documentName).set(documentData);
+        ApiFuture<WriteResult> future = firestore.collection(collectionName).document(documentName).set(documentData);
 
         try {
             future.get();
@@ -77,14 +77,14 @@ public class AssetService {
         }
     }
 
-    public DocumentSnapshot getDocumentByRef(String documentRef){
+    public DocumentSnapshot getDocumentByRef(String collectionName, String documentRef){
         Firestore firestore = FirestoreClient.getFirestore();
 
         DocumentSnapshot docSnapShot = null;
-        ApiFuture<DocumentSnapshot> future =  firestore.collection("game_jacket").document(documentRef).get();
+        ApiFuture<DocumentSnapshot> future =  firestore.collection(collectionName).document(documentRef).get();
 
         try {
-           docSnapShot =  future.get();
+            docSnapShot =  future.get();
         } catch (InterruptedException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
