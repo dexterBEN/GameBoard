@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_session/flutter_session.dart';
 import 'package:gameboard_front/api/entities/GameSheet.dart';
 import 'package:gameboard_front/api/services/GameSheetService.dart';
 import 'dart:io' as Io;
@@ -22,12 +23,19 @@ class _MyHomePageState extends State<MyHomePage> {
   List<GameSheet> currentList = [];
   GameSheetService gameSheetService = GameSheetService();
   TextEditingController _textController = TextEditingController();
+  var session = null;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getSheets();
+    getUserSession().then((value) => print(value));
+  }
+
+  Future<dynamic> getUserSession() async {
+    session = await FlutterSession().get("userSession");
+    return session;
   }
 
   void _incrementCounter() {
@@ -99,47 +107,3 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
-
-// List<Widget> displaySheet() {
-//     var decodeBase64 = null;
-//     var file = null;
-//     List<Widget> cardList = [];
-
-//     sheets.map((e) {
-//       decodeBase64 = base64Decode(e.jacketPath);
-//       cardList.add(
-//         Card(
-//           child: Column(
-//             mainAxisAlignment: MainAxisAlignment.center,
-//             crossAxisAlignment: CrossAxisAlignment.center,
-//             children: <Widget>[
-//               ListTile(
-//                 leading: Icon(Icons.album),
-//                 title: Text(
-//                   e.title,
-//                   style: TextStyle(color: Colors.black, fontSize: 10),
-//                 ),
-//                 subtitle: Text('Music by Julie Gable. Lyrics by Sidney Stein.'),
-//               ),
-//               Row(
-//                 mainAxisAlignment: MainAxisAlignment.end,
-//                 children: <Widget>[
-//                   TextButton(
-//                     child: Text('BUY TICKETS'),
-//                     onPressed: () {/* ... */},
-//                   ),
-//                   SizedBox(width: 8),
-//                   TextButton(
-//                     child: Text('LISTEN'),
-//                     onPressed: () {/* ... */},
-//                   ),
-//                   SizedBox(width: 8),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       );
-//     });
-//     return cardList;
-//   }

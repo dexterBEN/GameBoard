@@ -11,46 +11,45 @@ class CardComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          ListTile(
-            leading: Icon(Icons.album),
-            title: Text(gameSheet.title),
-            subtitle: Text('Description comming soon'),
-          ),
-          Container(
-            width: 200,
-            height: 200,
-            alignment: Alignment.center,
-            child: Image.memory(Helper.base64ToImg(gameSheet.jacketPath)),
-          ),
-          ButtonTheme(
-            // make buttons use the appropriate styles for cards
-            child: ButtonBar(
-              children: <Widget>[
-                FlatButton(
-                  child: Text('About the studio'),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StudioPage(
-                          studio: gameSheet.studio,
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                // FlatButton(
-                //   child: Text('Show More'),
-                //   onPressed: () {/* ... */},
-                // ),
-              ],
+    return SizedBox(
+      width: 100,
+      child: Card(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            ListTile(
+              leading: Icon(Icons.album),
+              title: Text(gameSheet.title),
+              subtitle: Text('Description comming soon'),
             ),
-          ),
-        ],
+            Container(
+              width: 200,
+              height: 200,
+              alignment: Alignment.center,
+              child: Image.memory(Helper.base64ToImg(gameSheet.jacketPath)),
+            ),
+            ButtonTheme(
+              // make buttons use the appropriate styles for cards
+              child: ButtonBar(
+                children: <Widget>[
+                  FlatButton(
+                    child: Text('About the studio'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StudioPage(
+                            studio: gameSheet.studio,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

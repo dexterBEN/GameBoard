@@ -11,8 +11,7 @@ class GameSheetService {
   GameSheetService._internal();
 
   Future fetchAllSheet() async {
-    final response =
-        await http.get("https://258d56cf8bf8.ngrok.io/gamesheet/sheets");
+    final response = await http.get("http://localhost:8080/gamesheet/sheets");
 
     return response;
   }
