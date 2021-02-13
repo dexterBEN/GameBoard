@@ -58,19 +58,19 @@ public class GameSheetController {
     @ResponseBody
     public Iterable<GameSheet> getAllSheet() {
 
-        List <String> jackets = new ArrayList<>();
+        List <String> jacketRefs = new ArrayList<>();
+
         int i = 0;
-        String jacketRef = null;
 
         gameSheetService.getAllSheetIterable().forEach(gs ->{
-            gs.setJacketPathRef(assetService.getDocumentByRef(gs.getJacketPathRef()).getString("hexa_value"));
+            gs.setJacketPathRef(assetService.getDocumentByRef("game_jacket", gs.getJacketPathRef()).getString("hexa_value"));
+            jacketRefs.add(gs.getStudio().getLogoPathRef());
         });
 
-
-        // for(GameSheet gs: gameSheetService.getAllSheetIterable()){
-        //     gs.setJacketPathRef(jackets.get(i));
-        //     i++;
-        // }
+        for(GameSheet gs: gameSheetService.getAllSheetIterable()){
+            gs.getStudio().setLogoPathRef(assetService.getDocumentByRef("studio_logo", jacketRefs.get(i)).getString("base64_value"));
+            i++;
+        }
 
         return gameSheetService.getAllSheetIterable();
     }
@@ -101,7 +101,7 @@ public class GameSheetController {
 
         docData.put("hexa_value", strBase64);
 
-        assetService.createDocument(title+"_jacket", docData);
+        assetService.createDocument("game_jacket",title+"_jacket", docData);
 
         gameSheet.setTitle(title);
         gameSheet.setPlatform(platform);
