@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gameboard_front/views/auth_page.dart';
 
 import 'views/home_page.dart';
 
@@ -15,7 +16,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'GameBoard'),
+      home: AuthPage(),
+      routes: {
+        "/home-page": (_) => MyHomePage(title: "GameBoard"),
+      },
     );
   }
 }
