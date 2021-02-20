@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gameboard_front/api/entities/GameSheet.dart';
 import 'package:gameboard_front/helpers/helper.dart';
+import 'package:gameboard_front/views/comments_rates_page.dart';
 import 'package:gameboard_front/views/studio_description_page.dart';
 
 class CardComponent extends StatelessWidget {
@@ -40,6 +41,20 @@ class CardComponent extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => StudioPage(
                             studio: gameSheet.studio,
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                  FlatButton(
+                    child: Text('Comments and ratings'),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CommentPage(
+                            title: "GameBoard",
+                            gameSheet: gameSheet,
                           ),
                         ),
                       );
