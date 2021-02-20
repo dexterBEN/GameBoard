@@ -1,14 +1,10 @@
 package com.dexlab.gameboard.controller;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 import org.springframework.http.HttpStatus;
 
@@ -19,8 +15,6 @@ import com.dexlab.gameboard.model.GameSheet.AgeRestriction;
 import com.dexlab.gameboard.service.AssetService;
 import com.dexlab.gameboard.service.GameSheetService;
 import com.dexlab.gameboard.service.StudioService;
-import com.google.cloud.firestore.DocumentSnapshot;
-import com.google.protobuf.StringValue;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,7 +26,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-import org.apache.commons.io.FileUtils;
 
 @RestController
 @CrossOrigin
