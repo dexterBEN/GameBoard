@@ -8,11 +8,7 @@ import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
-
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
-import org.hibernate.validator.constraints.Length;
-
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Objects;
