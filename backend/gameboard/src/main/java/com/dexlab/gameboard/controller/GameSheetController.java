@@ -18,6 +18,7 @@ import com.dexlab.gameboard.service.StudioService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,7 +48,7 @@ public class GameSheetController {
         return "Welcom Tonton youssouf ";
     }
 
-    @GetMapping(path = "/gamesheet/sheets")
+    @GetMapping(path = "gameboard/gamesheets")
     @ResponseBody
     public Iterable<GameSheet> getAllSheet() {
 
@@ -68,7 +69,7 @@ public class GameSheetController {
         return gameSheetService.getAllSheetIterable();
     }
 
-    @PostMapping(path = "/gamesheet/create")
+    @PostMapping(path = "gameboard/gamesheet")
     @ResponseBody
     public String createSheet(
         @RequestParam("title") String title, 
@@ -107,7 +108,7 @@ public class GameSheetController {
         return "sheet registered";
     }
 
-    @PostMapping(path ="/gamesheet/delete/{id}")
+    @DeleteMapping(path ="gameboard/gamesheet/{id}")
     @ResponseStatus(HttpStatus.OK)
     public String deleteSheetById(@PathVariable("id") String id){
 
