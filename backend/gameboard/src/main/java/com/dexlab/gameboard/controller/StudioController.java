@@ -31,7 +31,7 @@ public class StudioController {
     @Autowired
     AssetService assetService;
 
-    @GetMapping(path = "/gamesheet/studios")
+    @GetMapping(path = "/gameboard/studios")
     @ResponseBody
     public Iterable<Studio> getAllStudio() {
 
@@ -40,7 +40,7 @@ public class StudioController {
         return studioService.getAllStudio();
     }
 
-    @PostMapping(path="/studio/create")
+    @PostMapping(path="gameboard/studio")
     @ResponseBody
     public String createStudio(
         @RequestParam("name") String name, 
