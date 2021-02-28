@@ -77,4 +77,17 @@ public class AssetService {
         
         return docSnapShot;
     }
+
+    public List<QueryDocumentSnapshot> findAssetByGameId(int gameId) throws InterruptedException, ExecutionException {
+
+        Firestore firestore = FirestoreClient.getFirestore();
+        ApiFuture<QuerySnapshot> querySnapshot = null;
+        List<DocumentSnapshot> assetSnapShots = null;
+
+        CollectionReference assetCollection = firestore.collection("Assets");
+
+        List<QueryDocumentSnapshot> assetListFiltered = assetCollection.whereEqualTo("game_id", gameId).get().get().getDocuments();
+
+        return assetListFiltered;
+    }
 }
