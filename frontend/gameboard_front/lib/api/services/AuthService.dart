@@ -1,9 +1,10 @@
+import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class AuthService {
-  static final AuthService _gameSheetService = AuthService._internal();
+  static final AuthService _authService = AuthService._internal();
 
-  factory AuthService() => _gameSheetService;
+  factory AuthService() => _authService;
 
   AuthService._internal();
 
@@ -12,7 +13,6 @@ class AuthService {
       "http://localhost:8080/gameboard/authenticate",
       body: {"email": email, "password": password},
     );
-
     return response;
   }
 }

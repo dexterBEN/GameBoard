@@ -11,7 +11,8 @@ class GameSheetService {
   GameSheetService._internal();
 
   Future fetchAllSheet() async {
-    final response = await http.get("http://localhost:8080/gamesheet/sheets");
+    final response =
+        await http.get("http://localhost:8080/gameboard/gamesheets");
 
     return response;
   }

@@ -50,6 +50,8 @@ class _CommentPageState extends State<CommentPage> {
     });
   }
 
+  getAssets() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
