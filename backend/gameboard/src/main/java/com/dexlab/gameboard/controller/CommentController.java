@@ -60,8 +60,6 @@ public class CommentController {
                 comment.setAuthor(commentSnapShot.getString("author"));
                 comment.setContent(commentSnapShot.getString("content"));
 
-                
-
                 comment.setGameID(gameId);
                 comments.add(comment);
             }
