@@ -2,9 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
-import 'package:gameboard_front/api/entities/Comment.dart';
-import 'package:gameboard_front/api/entities/GameSheet.dart';
-import 'package:gameboard_front/api/services/CommentService.dart';
+import 'package:gameboard_front/domain/entities/Comment.dart';
+import 'package:gameboard_front/domain/entities/GameSheet.dart';
+import 'package:gameboard_front/domain/services/CommentService.dart';
 import 'package:gameboard_front/helpers/helper.dart';
 import 'dart:html' as html;
 

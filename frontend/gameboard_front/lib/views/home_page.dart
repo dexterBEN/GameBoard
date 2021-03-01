@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
-import 'package:gameboard_front/api/entities/GameSheet.dart';
-import 'package:gameboard_front/api/services/GameSheetService.dart';
+import 'package:gameboard_front/domain/entities/GameSheet.dart';
+import 'package:gameboard_front/domain/services/GameSheetService.dart';
 import 'dart:io' as Io;
 
 import 'package:gameboard_front/views/card_component.dart';
@@ -18,7 +18,6 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
   List<GameSheet> fetchedSheets = [];
   List<GameSheet> currentList = [];
   GameSheetService gameSheetService = GameSheetService();
@@ -36,12 +35,6 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<dynamic> getUserSession() async {
     session = await FlutterSession().get("userSession");
     return session;
-  }
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
   }
 
   getSheets() {

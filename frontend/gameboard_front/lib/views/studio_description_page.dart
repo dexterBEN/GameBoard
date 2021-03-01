@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gameboard_front/api/entities/Studio.dart';
+import 'package:gameboard_front/domain/entities/Studio.dart';
 import 'package:gameboard_front/helpers/helper.dart';
 
 class StudioPage extends StatefulWidget {

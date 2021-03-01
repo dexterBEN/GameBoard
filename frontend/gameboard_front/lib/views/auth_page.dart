@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
-import 'package:gameboard_front/api/entities/User.dart';
-import 'package:gameboard_front/api/services/AuthService.dart';
+import 'package:gameboard_front/domain/entities/User.dart';
+import 'package:gameboard_front/domain/services/AuthService.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);

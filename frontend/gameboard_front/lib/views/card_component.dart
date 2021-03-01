@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gameboard_front/api/entities/GameSheet.dart';
+import 'package:gameboard_front/domain/entities/GameSheet.dart';
 import 'package:gameboard_front/helpers/helper.dart';
 import 'package:gameboard_front/views/comments_rates_page.dart';
 import 'package:gameboard_front/views/media_page.dart';

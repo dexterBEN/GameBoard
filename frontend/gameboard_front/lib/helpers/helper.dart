@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:typed_data';
-import 'package:base_x/base_x.dart';
 
 class Helper {
   static Uint8List base64ToImg(String imgBase64) {

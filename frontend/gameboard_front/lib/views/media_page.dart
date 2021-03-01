@@ -1,11 +1,8 @@
 import 'dart:convert';
-import 'dart:html' as html;
 import 'package:flutter/material.dart';
-import 'package:gameboard_front/api/entities/GameSheet.dart';
-import 'package:gameboard_front/api/services/AssetService.dart';
+import 'package:gameboard_front/domain/entities/GameSheet.dart';
+import 'package:gameboard_front/domain/services/AssetService.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
-import 'package:gameboard_front/helpers/helper.dart';
-import 'package:video_player/video_player.dart';
 
 class MediaPage extends StatefulWidget {
   MediaPage({Key key, this.gameSheet, this.title}) : super(key: key);
@@ -18,8 +15,6 @@ class MediaPage extends StatefulWidget {
 }
 
 class _MediaPageState extends State<MediaPage> {
-  TextEditingController _textController = TextEditingController();
-
   AssetService assetService = AssetService();
 
   var session = null;
