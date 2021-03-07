@@ -6,7 +6,10 @@ import 'package:gameboard_front/domain/entities/Comment.dart';
 import 'package:gameboard_front/domain/entities/GameSheet.dart';
 import 'package:gameboard_front/domain/services/CommentService.dart';
 import 'package:gameboard_front/helpers/helper.dart';
+import 'package:gameboard_front/views/view_model/comment_model.dart';
 import 'dart:html' as html;
+
+import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
   CommentPage({Key key, this.gameSheet, this.title}) : super(key: key);
@@ -25,35 +28,37 @@ class _CommentPageState extends State<CommentPage> {
 
   var session = null;
 
-  List<Comment> comments = [];
+  //List<Comment> comments = [];
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     getUserSession().then((value) => session = value);
-    getComments();
   }
 
   Future<dynamic> getUserSession() async {
     return await FlutterSession().get("userSession");
   }
 
-  getComments() {
-    Iterable list = null;
-    commentService.fetchCommentsByGameId(widget.gameSheet.id).then((response) {
-      list = json.decode(response.body);
+  // getComments() {
+  //   Iterable list = null;
+  //   commentService.fetchCommentsByGameId(widget.gameSheet.id).then((response) {
+  //     list = json.decode(response.body);
 
-      setState(() {
-        comments = list.map((model) => Comment.fromJson(model)).toList();
-      });
-    });
-  }
+  //     setState(() {
+  //       comments = list.map((model) => Comment.fromJson(model)).toList();
+  //     });
+  //   });
+  // }
 
   getAssets() {}
 
   @override
   Widget build(BuildContext context) {
+    var commentProvider = Provider.of<CommentModel>(context, listen: false);
+    commentProvider.getCommentList(widget.gameSheet.id);
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -92,20 +97,23 @@ class _CommentPageState extends State<CommentPage> {
               },
             ),
           ),
-          Expanded(
-            child: Center(
-              child: Container(
-                width: 800,
-                height: 800,
+          Consumer<CommentModel>(
+            builder: (context, model, _) {
+              if (model.comments.length == 0) {
+                return Text("no comment for this one");
+              }
+              return SizedBox(
+                width: 100,
+                height: 100,
                 child: ListView.separated(
                   separatorBuilder: (context, index) => SizedBox(height: 18),
-                  itemCount: comments.length,
+                  itemCount: model.comments.length,
                   itemBuilder: (context, index) {
-                    return buildCommentBubble(comments[index]);
+                    return buildCommentBubble(model.comments[index]);
                   },
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -115,16 +123,6 @@ class _CommentPageState extends State<CommentPage> {
   Widget buildCommentBubble(Comment comment) {
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        if (comments.length == 0) {
-          return SizedBox(
-            width: (constraints.maxWidth * 90) / 100,
-            height: (constraints.maxHeight * 90) / 100,
-            child: Text(
-              "no comment for this game yet",
-              textAlign: TextAlign.center,
-            ),
-          );
-        }
         return SizedBox(
           width: (constraints.maxWidth * 90) / 100,
           child: Container(
@@ -151,3 +149,15 @@ class _CommentPageState extends State<CommentPage> {
     );
   }
 }
+// LayoutBuilder(
+//                   builder: (BuildContext context, BoxConstraints constraints) {
+//                     return SizedBox(
+//                       width: (constraints.maxWidth * 90) / 100,
+//                       height: (constraints.maxHeight * 90) / 100,
+//                       child: Text(
+//                         "no comment for this game yet",
+//                         textAlign: TextAlign.center,
+//                       ),
+//                     );
+//                   },
+//                 )
