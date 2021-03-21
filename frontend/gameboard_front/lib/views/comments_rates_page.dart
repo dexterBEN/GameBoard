@@ -57,15 +57,132 @@ class _CommentPageState extends State<CommentPage> {
   @override
   Widget build(BuildContext context) {
     var commentProvider = Provider.of<CommentModel>(context, listen: false);
+    var screenSize = MediaQuery.of(context).size;
     commentProvider.getCommentList(widget.gameSheet.id);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          Padding(
+      body: Center(
+        child: SizedBox(
+          width: (screenSize.width * 80) / 100,
+          height: (screenSize.height * 80) / 100,
+          child: Column(
+            children: [
+              buildJacketLayout(),
+              buildInputComment(),
+              Expanded(
+                child: buildCommentList(),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buildCommentList() {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SizedBox(
+          width: (constraints.maxWidth * 20) / 100,
+          //height: constraints.maxHeight,
+          child: Consumer<CommentModel>(
+            builder: (context, model, _) {
+              if (model.comments.length == 0) {
+                return Text("no comment for this one");
+              }
+              return ListView.separated(
+                separatorBuilder: (context, index) => SizedBox(height: 5),
+                scrollDirection: Axis.vertical,
+                shrinkWrap: true,
+                itemCount: model.comments.length,
+                itemBuilder: (context, index) {
+                  return buildCommentBubble(model.comments[index]);
+                },
+              );
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildInputComment() {
+    var commentProvider = Provider.of<CommentModel>(context, listen: false);
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SizedBox(
+          width: (constraints.maxWidth * 20) / 100,
+          child: TextField(
+            controller: _textController,
+            decoration: InputDecoration(
+              hintText: 'Write your comment',
+            ),
+            onSubmitted: (inputValue) {
+              print(session["user"]["name"]);
+              commentService.createComment(
+                Comment(
+                  author: session["user"]["name"],
+                  content: inputValue,
+                  gameId: widget.gameSheet.id,
+                ),
+              );
+              commentProvider.getCommentList(widget.gameSheet.id);
+              //html.window.location.reload();
+            },
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildJacketLayout() {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SizedBox(
+          width: (constraints.maxWidth * 20) / 100,
+          child: Image.memory(
+            Helper.base64ToImg(widget.gameSheet.jacketPath),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget buildCommentBubble(Comment comment) {
+    return LayoutBuilder(
+      builder: (BuildContext context, BoxConstraints constraints) {
+        return SizedBox(
+          width: (constraints.maxWidth * 50) / 100,
+          child: Container(
+            child: Column(
+              children: [
+                Text(
+                  "@" + Helper.formatUtf8(comment.author) + " say:",
+                  style: TextStyle(color: Colors.white),
+                ),
+                Text(
+                  Helper.formatUtf8(comment.content),
+                  style: TextStyle(color: Colors.white),
+                )
+              ],
+            ),
+            decoration: BoxDecoration(
+              shape: BoxShape.rectangle,
+              color: Colors.blue,
+              borderRadius: BorderRadius.circular(5),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/*
+Padding(
             padding: const EdgeInsets.all(12.0),
             child: Text(widget.gameSheet.title),
           ),
@@ -93,71 +210,29 @@ class _CommentPageState extends State<CommentPage> {
                     gameId: widget.gameSheet.id,
                   ),
                 );
-                html.window.location.reload();
+                commentProvider.getCommentList(widget.gameSheet.id);
+                //html.window.location.reload();
               },
             ),
           ),
-          Consumer<CommentModel>(
-            builder: (context, model, _) {
-              if (model.comments.length == 0) {
-                return Text("no comment for this one");
-              }
-              return SizedBox(
-                width: 100,
-                height: 100,
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 18),
-                  itemCount: model.comments.length,
-                  itemBuilder: (context, index) {
-                    return buildCommentBubble(model.comments[index]);
-                  },
-                ),
-              );
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildCommentBubble(Comment comment) {
-    return LayoutBuilder(
-      builder: (BuildContext context, BoxConstraints constraints) {
-        return SizedBox(
-          width: (constraints.maxWidth * 90) / 100,
-          child: Container(
-            child: Column(
-              children: [
-                Text(
-                  "@" + comment.author + " say:",
-                  style: TextStyle(color: Colors.white),
-                ),
-                Text(
-                  comment.content,
-                  style: TextStyle(color: Colors.white),
-                )
-              ],
-            ),
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color: Colors.blue,
-              borderRadius: BorderRadius.circular(5),
+          Center(
+            child: Consumer<CommentModel>(
+              builder: (context, model, _) {
+                if (model.comments.length == 0) {
+                  return Text("no comment for this one");
+                }
+                return SizedBox(
+                  width: (screenSize.width * 30) / 100,
+                  height: (screenSize.height * 30) / 100,
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => SizedBox(height: 18),
+                    itemCount: model.comments.length,
+                    itemBuilder: (context, index) {
+                      return buildCommentBubble(model.comments[index]);
+                    },
+                  ),
+                );
+              },
             ),
           ),
-        );
-      },
-    );
-  }
-}
-// LayoutBuilder(
-//                   builder: (BuildContext context, BoxConstraints constraints) {
-//                     return SizedBox(
-//                       width: (constraints.maxWidth * 90) / 100,
-//                       height: (constraints.maxHeight * 90) / 100,
-//                       child: Text(
-//                         "no comment for this game yet",
-//                         textAlign: TextAlign.center,
-//                       ),
-//                     );
-//                   },
-//                 )
+ */
