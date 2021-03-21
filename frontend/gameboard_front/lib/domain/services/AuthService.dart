@@ -15,4 +15,11 @@ class AuthService {
     );
     return response;
   }
+
+  Future register(String name, String email, String password) async {
+    final response = await http.post(
+      "http://localhost:8080/gameboard/register",
+      body: {"name": name, "email": email, "password": password},
+    );
+  }
 }
