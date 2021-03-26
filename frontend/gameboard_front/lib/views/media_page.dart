@@ -41,30 +41,38 @@ class _MediaPageState extends State<MediaPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: Text(widget.gameSheet.title),
-          ),
-          Expanded(
-            child: Center(
-              child: Container(
-                child: ListView.separated(
-                  separatorBuilder: (context, index) => SizedBox(height: 18),
-                  itemCount: assets.length,
-                  itemBuilder: (context, index) {
-                    return buildAssetContainer(assets[index]);
-                  },
+      body: Center(
+        child: SizedBox(
+          width: (screenSize.width * 80) / 100,
+          height: (screenSize.height * 80) / 100,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Text(widget.gameSheet.title),
+              ),
+              Expanded(
+                child: Center(
+                  child: Container(
+                    child: ListView.separated(
+                      separatorBuilder: (context, index) =>
+                          SizedBox(height: 18),
+                      itemCount: assets.length,
+                      itemBuilder: (context, index) {
+                        return buildAssetContainer(assets[index]);
+                      },
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
@@ -84,8 +92,8 @@ class _MediaPageState extends State<MediaPage> {
       builder: (BuildContext context, BoxConstraints constraints) {
         if (assets.length == 0) {
           return SizedBox(
-            width: (constraints.maxWidth * 90) / 100,
-            height: (constraints.maxHeight * 90) / 100,
+            width: (constraints.maxWidth * 50) / 100,
+            height: (constraints.maxHeight * 50) / 100,
             child: Text(
               "no trailer or picture for this game yet",
               textAlign: TextAlign.center,
@@ -93,9 +101,9 @@ class _MediaPageState extends State<MediaPage> {
           );
         }
         return SizedBox(
-          width: constraints.maxWidth,
-          height: constraints.maxHeight,
+          width: (constraints.maxWidth * 50) / 100,
           child: Container(
+            width: (constraints.maxHeight * 50) / 100,
             child: AspectRatio(
               aspectRatio: 16 / 9,
               child: YoutubePlayerIFrame(
@@ -114,6 +122,30 @@ class _MediaPageState extends State<MediaPage> {
     );
   }
 }
+
+/*
+Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Text(widget.gameSheet.title),
+          ),
+          Expanded(
+            child: Center(
+              child: Container(
+                child: ListView.separated(
+                  separatorBuilder: (context, index) => SizedBox(height: 18),
+                  itemCount: assets.length,
+                  itemBuilder: (context, index) {
+                    return buildAssetContainer(assets[index]);
+                  },
+                ),
+              ),
+            ),
+          ),
+        ],
+      )
+*/
 
 // class VideoPlayerScreen extends StatefulWidget {
 //   VideoPlayerScreen({Key key, this.videoLink}) : super(key: key);

@@ -66,12 +66,20 @@ class _CommentPageState extends State<CommentPage> {
       ),
       body: Center(
         child: SizedBox(
-          width: (screenSize.width * 80) / 100,
-          height: (screenSize.height * 80) / 100,
+          width: (screenSize.width * 90) / 100,
+          height: (screenSize.height * 90) / 100,
           child: Column(
             children: [
               buildJacketLayout(),
+              SizedBox(
+                width: screenSize.width / 100,
+                height: screenSize.width / 100,
+              ),
               buildInputComment(),
+              SizedBox(
+                width: screenSize.width / 100,
+                height: screenSize.width / 100,
+              ),
               Expanded(
                 child: buildCommentList(),
               ),
