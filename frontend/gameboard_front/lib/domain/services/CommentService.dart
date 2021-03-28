@@ -1,4 +1,5 @@
 import 'package:gameboard_front/domain/entities/Comment.dart';
+import 'package:gameboard_front/helpers/helper.dart';
 import 'package:http/http.dart' as http;
 
 class CommentService {
@@ -10,13 +11,13 @@ class CommentService {
 
   Future fetchCommentsByGameId(int gameId) async {
     final response = await http
-        .get("http://localhost:8080/gameboard/gamesheet/${gameId}/comments");
+        .get(Helper.API_BASE_URL + "/gameboard/gamesheet/${gameId}/comments");
     return response;
   }
 
   void createComment(Comment comment) {
     http.post(
-      "http://localhost:8080/gameboard/comment/create",
+      Helper.API_BASE_URL + "/gameboard/comment/create",
       body: {
         "author": comment.author,
         "game_id": comment.gameId.toString(),
