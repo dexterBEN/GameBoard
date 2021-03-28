@@ -3,6 +3,8 @@ import 'dart:typed_data';
 import 'dart:convert' show utf8;
 
 class Helper {
+  static String API_BASE_URL = "https://61cb564c3a82.ngrok.io";
+
   static Uint8List base64ToImg(String imgBase64) {
     return base64Decode(imgBase64);
   }
