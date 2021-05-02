@@ -64,30 +64,7 @@ class _AuthPageState extends State<AuthPage> {
                       ],
                     ),
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      pageController.page == 0
-                          ? pageController.jumpToPage(1)
-                          : pageController.jumpToPage(0);
-                      setState(() {
-                        currentPage = pageController.page;
-                      });
-                    },
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: EdgeInsets.all(15.0),
-                    child: Text(
-                      currentPage == 0
-                          ? "Go to register form"
-                          : "Go to login form",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  )
+                  SwitchButton(pageController: pageController)
                 ],
               ),
             ),
@@ -229,6 +206,52 @@ class _AuthPageState extends State<AuthPage> {
               // ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class SwitchButton extends StatefulWidget {
+  final PageController pageController;
+
+  SwitchButton({Key key, this.pageController}) : super(key: key);
+
+  @override
+  _SwitchButtonState createState() => _SwitchButtonState();
+}
+
+class _SwitchButtonState extends State<SwitchButton> {
+  double currentPage;
+
+  @override
+  void initState() {
+    super.initState();
+    currentPage = widget.pageController.page;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return RaisedButton(
+      onPressed: () {
+        widget.pageController.page == 0
+            ? widget.pageController.jumpToPage(1)
+            : widget.pageController.jumpToPage(0);
+        setState(() {
+          currentPage = widget.pageController.page;
+        });
+      },
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8.0),
+      ),
+      padding: EdgeInsets.all(15.0),
+      child: Text(
+        currentPage == 0 ? "Go to register form" : "Go to login form",
+        style: TextStyle(
+          fontSize: 16.0,
+          fontWeight: FontWeight.w500,
+          color: Colors.grey,
         ),
       ),
     );
