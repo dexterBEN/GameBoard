@@ -7,6 +7,7 @@ import 'package:gameboard_front/domain/entities/InputField.dart';
 import 'package:gameboard_front/domain/entities/User.dart';
 import 'package:gameboard_front/domain/services/AuthService.dart';
 import 'package:gameboard_front/views/auth_view/login_form.dart';
+import 'package:gameboard_front/views/auth_view/register_form.dart';
 
 class AuthPage extends StatefulWidget {
   AuthPage({Key key}) : super(key: key);
@@ -30,8 +31,14 @@ class _AuthPageState extends State<AuthPage> {
     initialPage: 0,
   );
 
-  List<InputField> inputFields = [
+  List<InputField> loginFormFields = [
     InputField(controller: TextEditingController(), label: "login"),
+    InputField(controller: TextEditingController(), label: "password")
+  ];
+
+  List<InputField> registerFormFields = [
+    InputField(controller: TextEditingController(), label: "name"),
+    InputField(controller: TextEditingController(), label: "email"),
     InputField(controller: TextEditingController(), label: "password")
   ];
 
@@ -58,9 +65,12 @@ class _AuthPageState extends State<AuthPage> {
                       controller: pageController,
                       children: [
                         LoginForm(
-                          inputFields: inputFields,
+                          inputFields: loginFormFields,
                         ),
-                        buildRegisterForm(),
+                        RegisterForm(
+                          inputFields: registerFormFields,
+                          pageController: pageController,
+                        ),
                       ],
                     ),
                   ),
@@ -82,133 +92,6 @@ class _AuthPageState extends State<AuthPage> {
     var sessionData = null;
     sessionData = await session.get("userSession");
     return sessionData;
-  }
-
-  Widget buildRegisterForm() {
-    return Center(
-      child: SizedBox(
-        width: 800,
-        height: 400,
-        child: Card(
-          color: Colors.white30,
-          child: Column(
-            children: [
-              LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return SizedBox(
-                    width: (constraints.maxWidth * 90) / 100,
-                    child: TextField(
-                      controller: nameCtrl,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "name",
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return SizedBox(
-                    width: (constraints.maxWidth * 90) / 100,
-                    child: TextField(
-                      controller: emailCtrl2,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "email",
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return SizedBox(
-                    width: (constraints.maxWidth * 90) / 100,
-                    child: TextField(
-                      controller: passwordCtrl2,
-                      obscureText: true,
-                      decoration: InputDecoration(
-                        filled: true,
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        hintText: "password",
-                        hintStyle: TextStyle(
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-              Container(
-                width: 20,
-                height: 20,
-              ),
-              RaisedButton(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.0),
-                ),
-                padding: EdgeInsets.all(15.0),
-                child: Text(
-                  "Create your account",
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white,
-                  ),
-                ),
-                onPressed: () {
-                  authService
-                      .register(
-                          nameCtrl.text, emailCtrl2.text, passwordCtrl2.text)
-                      .then((value) {
-                    pageController.jumpToPage(0);
-                  });
-                },
-              ),
-              Container(
-                width: 20,
-                height: 20,
-              ),
-              // RaisedButton(
-              //   onPressed: () {
-              //     pageController.jumpToPage(0);
-              //   },
-              //   shape: RoundedRectangleBorder(
-              //     borderRadius: BorderRadius.circular(8.0),
-              //   ),
-              //   padding: EdgeInsets.all(15.0),
-              //   child: Text(
-              //     "Go To Login Form",
-              //     style: TextStyle(
-              //       fontSize: 16.0,
-              //       fontWeight: FontWeight.w500,
-              //       color: Colors.white,
-              //     ),
-              //   ),
-              // ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }
 
