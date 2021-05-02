@@ -18,5 +18,5 @@ Keywords: Flutter, Firebase, Firestore, Provider, Spring, Swagger, MySQL, Github
 
 There a sample of the architecture (can changed later):
 
-![Architecture sample]([image](http://www.noelshack.com/2021-17-7-1619969174-pic.png)
-)
+![Architecture sample](http://image.noelshack.com/fichiers/2021/17/7/1619969174-pic.png)
+
