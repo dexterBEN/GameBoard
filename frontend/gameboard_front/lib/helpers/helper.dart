@@ -5,7 +5,7 @@ import 'dart:convert' show utf8;
 import 'package:gameboard_front/domain/entities/InputField.dart';
 
 class Helper {
-  static String API_BASE_URL = "https://4ccea53c078c.ngrok.io";
+  static String API_BASE_URL = "https://gameboard-b011e.nw.r.appspot.com";
 
   static Uint8List base64ToImg(String imgBase64) {
     return base64Decode(imgBase64);
