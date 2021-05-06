@@ -8,7 +8,7 @@ You can test it there: https://gameboard-b011e.web.app
 
 ## Stack and Architecture
 The front is built with Flutter and hosted with Firebase.  
-The back is built with Spring-boot and hosted on VM-linux (Maybe on App-engine later).  
+The back is built with Spring-boot and hosted with app-engine.  
 The BDD is Firestore for User, Images, Comment and MySQL for GameSheet, Studio (running on docker containers for this one).  
 Using Swagger for the documentation.  
 
