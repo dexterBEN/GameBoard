@@ -8,6 +8,9 @@ import com.dexlab.gameboard.service.AssetService;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,6 +49,14 @@ public class AssetController {
         }
 
         return assetList;
+    }
+
+    @GetMapping(path = "gameboard/asset/gamejacket/{jacket_ref}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String getAssetByJacketRef(@PathVariable ("jacket_ref") String jacketRef) {
+
+        String res = assetService.getDocumentByRef("game_jacket", jacketRef).getString("hexa_value");
+
+        return res;
     }
     
 }

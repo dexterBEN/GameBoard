@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 
 import com.dexlab.gameboard.helpers.Helpers;
 import com.dexlab.gameboard.model.GameSheet;
@@ -50,24 +52,11 @@ public class GameSheetController {
     }
 
     @GetMapping(path = "/gameboard/gamesheets")
-    @ResponseBody
-    public Iterable<GameSheet> getAllSheet() {
+    public ResponseEntity<Iterable<GameSheet>> getAllSheet() {
 
         List <String> jacketRefs = new ArrayList<>();
 
-        int i = 0;
-
-        gameSheetService.getAllSheetIterable().forEach(gs ->{
-            gs.setJacketPathRef(assetService.getDocumentByRef("game_jacket", gs.getJacketPathRef()).getString("hexa_value"));
-            jacketRefs.add(gs.getStudio().getLogoPathRef());
-        });
-
-        for(GameSheet gs: gameSheetService.getAllSheetIterable()){
-            gs.getStudio().setLogoPathRef(assetService.getDocumentByRef("studio_logo", jacketRefs.get(i)).getString("base64_value"));
-            i++;
-        }
-
-        return gameSheetService.getAllSheetIterable();
+        return new ResponseEntity<>(gameSheetService.getAllSheetIterable(), HttpStatus.OK);
     }
 
     @PostMapping(path = "gameboard/gamesheet")
