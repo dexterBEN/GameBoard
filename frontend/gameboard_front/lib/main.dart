@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gameboard_front/views/auth_page.dart';
+import 'package:gameboard_front/views/view_model/asset_model.dart';
 import 'package:gameboard_front/views/view_model/comment_model.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +18,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<CommentModel>(
           create: (context) => CommentModel(),
+        ),
+        ChangeNotifierProvider<AssetModel>(
+          create: (context) => AssetModel(),
         ),
       ],
       child: MaterialApp(

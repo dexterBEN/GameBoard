@@ -6,6 +6,7 @@ import 'package:gameboard_front/domain/entities/Comment.dart';
 import 'package:gameboard_front/domain/entities/GameSheet.dart';
 import 'package:gameboard_front/domain/services/CommentService.dart';
 import 'package:gameboard_front/helpers/helper.dart';
+import 'package:gameboard_front/views/view_model/asset_model.dart';
 import 'package:gameboard_front/views/view_model/comment_model.dart';
 import 'dart:html' as html;
 
@@ -24,6 +25,9 @@ class CommentPage extends StatefulWidget {
 class _CommentPageState extends State<CommentPage> {
   TextEditingController _textController = TextEditingController();
 
+  AssetModel assetModel;
+  Future<String> imgB64;
+
   CommentService commentService = CommentService();
 
   var session = null;
@@ -35,6 +39,13 @@ class _CommentPageState extends State<CommentPage> {
     // TODO: implement initState
     super.initState();
     getUserSession().then((value) => session = value);
+  }
+
+  @override
+  void didChangeDependencies() {
+    assetModel = Provider.of<AssetModel>(context);
+    assetModel.getJacket(widget.gameSheet.jacketPath);
+    imgB64 = assetModel.jacketB64;
   }
 
   Future<dynamic> getUserSession() async {
@@ -51,8 +62,6 @@ class _CommentPageState extends State<CommentPage> {
   //     });
   //   });
   // }
-
-  getAssets() {}
 
   @override
   Widget build(BuildContext context) {
@@ -151,8 +160,14 @@ class _CommentPageState extends State<CommentPage> {
       builder: (BuildContext context, BoxConstraints constraints) {
         return SizedBox(
           width: (constraints.maxWidth * 20) / 100,
-          child: Image.memory(
-            Helper.base64ToImg(widget.gameSheet.jacketPath),
+          child: FutureBuilder<String>(
+            future: imgB64,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState != ConnectionState.done) {
+                return Text("Img loading...");
+              }
+              return Image.memory(Helper.base64ToImg(snapshot.data));
+            },
           ),
         );
       },

@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_session/flutter_session.dart';
 import 'package:gameboard_front/domain/entities/GameSheet.dart';
+import 'package:gameboard_front/domain/services/AssetService.dart';
 import 'package:gameboard_front/domain/services/GameSheetService.dart';
 import 'dart:io' as Io;
 
 import 'package:gameboard_front/views/card_component.dart';
+import 'package:gameboard_front/views/view_model/asset_model.dart';
+import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
@@ -45,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         fetchedSheets = list.map((model) => GameSheet.fromJson(model)).toList();
         currentList = List.from(fetchedSheets);
       });
-      print(fetchedSheets);
+      //print(fetchedSheets);
     });
   }
 
