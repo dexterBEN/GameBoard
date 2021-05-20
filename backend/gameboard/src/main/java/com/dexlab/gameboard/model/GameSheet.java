@@ -17,6 +17,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -47,7 +48,6 @@ public class GameSheet {
     }
 
     @ManyToOne
-    @JsonManagedReference
     private Studio studio;
 
     @Id

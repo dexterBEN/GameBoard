@@ -2,14 +2,18 @@ package com.dexlab.gameboard;
 
 import java.io.IOException;
 
+import com.dexlab.gameboard.firebase.FirebaseConfig;
+import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.json.JsonParseException;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,17 +21,20 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest()
+@SpringBootTest(classes = GameboardApplication.class)
 @WebAppConfiguration
-public class AbstractTest {
-
-    protected MockMvc mvc;
+@AutoConfigureMockMvc
+public abstract class AbstractTest {
+    
+    @Autowired
+	protected MockMvc mockMvc;
     
     @Autowired
     WebApplicationContext webApplicationContext;
-
+    
     protected void setUp() {
-        mvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
+        
+        mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
     }
     protected String mapToJson(Object obj) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
