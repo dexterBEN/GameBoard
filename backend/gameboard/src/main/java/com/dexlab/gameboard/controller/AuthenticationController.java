@@ -42,7 +42,6 @@ public class AuthenticationController {
         @RequestParam("password") String password
     ){
 
-        String hashedStr = Helpers.encodeStringToSha1(password);
 
         Map<String, Object> userDoc = new HashMap<>();
 

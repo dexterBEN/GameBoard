@@ -4,11 +4,7 @@ package com.dexlab.gameboard;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.http.MediaType;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -16,25 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 import static org.junit.Assert.assertEquals;
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
-import com.dexlab.gameboard.controller.GameSheetController;
 import com.dexlab.gameboard.model.GameSheet;
-import com.dexlab.gameboard.service.GameSheetService;
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
 
 
 class GameSheetControllerTest extends AbstractTest{
@@ -69,5 +54,15 @@ class GameSheetControllerTest extends AbstractTest{
         //List<GameSheet> gameList = Arrays.asList(gameArray);
         assertTrue(!gameList.isEmpty());
     
+    }
+
+    @Test
+    public void assertWrongEndPointReturn405() throws Exception{
+        String randomEndpoint = "/gameboard/gamesheet";
+
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.get(randomEndpoint)
+        .accept(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+        assertEquals(mvcResult.getResponse().getStatus(), 405);
     }
 }
