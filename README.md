@@ -22,4 +22,5 @@ There a sample of the architecture (can changed later):
 
 ## Sample demo
 
-https://user-images.githubusercontent.com/33292824/205801662-f10af858-3936-4b75-a5a9-53560332c552.mp4
+https://user-images.githubusercontent.com/33292824/206934276-05dbebb3-1f00-4657-83a2-a64e69be370c.mp4
+
