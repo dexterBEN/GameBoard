@@ -10,14 +10,14 @@ class AssetService {
 
   Future fetchAssetsByGameId(int gameId) async {
     final response = await http
-        .get(Helper.API_BASE_URL + "/gameboard/asset/${gameId}/assets");
+        .get(Uri.parse(Helper.API_BASE_URL + "/gameboard/asset/${gameId}/assets"));
 
     return response;
   }
 
   Future<String> fetchGameJacket(String jacketRef) async {
     final response = await http
-        .get(Helper.API_BASE_URL + "/gameboard/asset/gamejacket/${jacketRef}");
+        .get(Uri.parse(Helper.API_BASE_URL + "/gameboard/asset/gamejacket/${jacketRef}"));
 
     return response.body;
   }

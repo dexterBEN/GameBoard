@@ -5,7 +5,7 @@ import 'package:gameboard_front/domain/services/AssetService.dart';
 import 'package:youtube_player_iframe/youtube_player_iframe.dart';
 
 class MediaPage extends StatefulWidget {
-  MediaPage({Key key, this.gameSheet, this.title}) : super(key: key);
+  MediaPage({Key ? key, required this.gameSheet, required this.title}) : super(key: key);
 
   final GameSheet gameSheet;
   final String title;
@@ -29,12 +29,12 @@ class _MediaPageState extends State<MediaPage> {
   }
 
   getAssets() {
-    Iterable list = null;
+    Iterable ? list = null;
     assetService.fetchAssetsByGameId(widget.gameSheet.id).then((response) {
       list = json.decode(response.body);
 
       setState(() {
-        assets = list.toList();
+        assets = list!.toList();
       });
     });
   }

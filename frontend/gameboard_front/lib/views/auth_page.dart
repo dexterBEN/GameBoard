@@ -10,7 +10,7 @@ import 'package:gameboard_front/views/auth_view/login_form.dart';
 import 'package:gameboard_front/views/auth_view/register_form.dart';
 
 class AuthPage extends StatefulWidget {
-  AuthPage({Key key}) : super(key: key);
+  AuthPage({Key ? key}) : super(key: key);
 
   @override
   _AuthPageState createState() => _AuthPageState();
@@ -98,37 +98,37 @@ class _AuthPageState extends State<AuthPage> {
 class SwitchButton extends StatefulWidget {
   final PageController pageController;
 
-  SwitchButton({Key key, this.pageController}) : super(key: key);
+  SwitchButton({Key? key, required this.pageController}) : super(key: key);
 
   @override
   _SwitchButtonState createState() => _SwitchButtonState();
 }
 
 class _SwitchButtonState extends State<SwitchButton> {
-  double currentPage;
+  late double currentPage;
 
   @override
   void initState() {
     super.initState();
-    currentPage = widget.pageController.page;
+    currentPage = widget.pageController.page!;
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return RaisedButton(
+    return TextButton(
       onPressed: () {
         widget.pageController.page == 0
             ? widget.pageController.jumpToPage(1)
             : widget.pageController.jumpToPage(0);
         setState(() {
-          currentPage = widget.pageController.page;
+          currentPage = widget.pageController.page!;
         });
       },
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(8.0),
-      ),
-      padding: EdgeInsets.all(15.0),
+      // shape: RoundedRectangleBorder(
+      //   borderRadius: BorderRadius.circular(8.0),
+      // ),
+      // padding: EdgeInsets.all(15.0),
       child: Text(
         currentPage == 0 ? "Go to register form" : "Go to login form",
         style: TextStyle(

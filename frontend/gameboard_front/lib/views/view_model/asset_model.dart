@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gameboard_front/domain/services/AssetService.dart';
 
 class AssetModel extends ChangeNotifier {
-  Future<String> jacketB64;
+  late Future<String> jacketB64;
 
   AssetService assetService = AssetService();
 

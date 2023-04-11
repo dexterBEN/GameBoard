@@ -12,14 +12,14 @@ class GameSheet {
   final Studio studio;
 
   GameSheet(
-      {this.id,
-      this.title,
-      this.platform,
-      this.ageRestriction,
-      this.jacketPath,
-      this.creationDate,
-      this.updatedDate,
-      this.studio});
+      {required this.id,
+      required this.title,
+      required this.platform,
+      required this.ageRestriction,
+      required this.jacketPath,
+      required this.creationDate,
+      required this.updatedDate,
+      required this.studio});
 
   factory GameSheet.fromJson(Map<String, dynamic> json) {
     return GameSheet(

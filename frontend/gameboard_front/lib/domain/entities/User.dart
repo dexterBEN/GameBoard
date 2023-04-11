@@ -3,7 +3,7 @@ class User {
   final String name;
   final String password;
 
-  User({this.email, this.password, this.name});
+  User({required this.email, required this.password, required this.name});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
@@ -27,7 +27,7 @@ class UserData {
   final User user;
   final String token;
 
-  UserData({this.user, this.token});
+  UserData({required this.user, required this.token});
 
   factory UserData.fromJson(Map<String, dynamic> json) {
     return UserData(
@@ -48,7 +48,7 @@ class UserData {
 class Session {
   final UserData userData;
 
-  Session({this.userData});
+  Session({required this.userData});
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = Map<String, dynamic>();

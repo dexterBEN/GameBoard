@@ -11,7 +11,7 @@ class GameSheetService {
 
   Future fetchAllSheet() async {
     final response =
-        await http.get(Helper.API_BASE_URL + "/gameboard/gamesheets");
+        await http.get(Uri.parse(Helper.API_BASE_URL + "/gameboard/gamesheets"));
 
     return response;
   }

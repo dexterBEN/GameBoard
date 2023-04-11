@@ -5,14 +5,14 @@ import 'package:gameboard_front/helpers/helper.dart';
 class StudioPage extends StatefulWidget {
   final Studio studio;
 
-  StudioPage({Key key, this.studio}) : super(key: key);
+  StudioPage({Key ? key, required this.studio}) : super(key: key);
 
   @override
   _StudioPageState createState() => _StudioPageState();
 }
 
 class _StudioPageState extends State<StudioPage> {
-  int indexCarrousel;
+  late int indexCarrousel;
   @override
   void initState() {
     super.initState();

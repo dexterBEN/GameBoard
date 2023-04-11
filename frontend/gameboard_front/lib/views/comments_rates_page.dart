@@ -13,7 +13,7 @@ import 'dart:html' as html;
 import 'package:provider/provider.dart';
 
 class CommentPage extends StatefulWidget {
-  CommentPage({Key key, this.gameSheet, this.title}) : super(key: key);
+  CommentPage({Key ? key, required this.gameSheet, required this.title}) : super(key: key);
 
   final GameSheet gameSheet;
   final String title;
@@ -25,8 +25,8 @@ class CommentPage extends StatefulWidget {
 class _CommentPageState extends State<CommentPage> {
   TextEditingController _textController = TextEditingController();
 
-  AssetModel assetModel;
-  Future<String> imgB64;
+  late AssetModel assetModel;
+  late Future<String> imgB64;
 
   CommentService commentService = CommentService();
 
@@ -166,7 +166,8 @@ class _CommentPageState extends State<CommentPage> {
               if (snapshot.connectionState != ConnectionState.done) {
                 return Text("Img loading...");
               }
-              return Image.memory(Helper.base64ToImg(snapshot.data));
+              String strJacket = snapshot.data ?? "";
+              return Image.memory(Helper.base64ToImg(strJacket));
             },
           ),
         );

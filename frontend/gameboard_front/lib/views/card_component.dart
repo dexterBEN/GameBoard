@@ -12,7 +12,7 @@ import 'package:gameboard_front/views/view_model/asset_model.dart';
 import 'package:provider/provider.dart';
 
 class CardComponent extends StatefulWidget {
-  CardComponent({Key key, this.gameSheet}) : super(key: key);
+  CardComponent({Key? key, required this.gameSheet}) : super(key: key);
 
   final GameSheet gameSheet;
 
@@ -21,8 +21,8 @@ class CardComponent extends StatefulWidget {
 }
 
 class _CardComponentState extends State<CardComponent> {
-  AssetModel assetModel;
-  Future<String> imgB64;
+  late AssetModel assetModel;
+  late Future<String> imgB64;
 
   AssetService assetService = AssetService();
 
@@ -80,7 +80,8 @@ class _CardComponentState extends State<CardComponent> {
                   if (snapshot.connectionState != ConnectionState.done) {
                     return Text("Img loading...");
                   }
-                  return Image.memory(Helper.base64ToImg(snapshot.data));
+                  String p = snapshot.data ?? "";
+                  return Image.memory(Helper.base64ToImg(p));
                 },
               ),
             ),
@@ -88,7 +89,7 @@ class _CardComponentState extends State<CardComponent> {
               // make buttons use the appropriate styles for cards
               child: ButtonBar(
                 children: <Widget>[
-                  FlatButton(
+                  TextButton(
                     child: Text('About the studio'),
                     onPressed: () {
                       Navigator.push(
@@ -101,7 +102,7 @@ class _CardComponentState extends State<CardComponent> {
                       );
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text('Comments and ratings'),
                     onPressed: () {
                       Navigator.push(
@@ -115,7 +116,7 @@ class _CardComponentState extends State<CardComponent> {
                       );
                     },
                   ),
-                  FlatButton(
+                  TextButton(
                     child: Text('Trailer'),
                     onPressed: () {
                       Navigator.push(

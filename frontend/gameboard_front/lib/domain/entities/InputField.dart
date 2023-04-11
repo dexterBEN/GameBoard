@@ -4,5 +4,5 @@ class InputField {
   final TextEditingController controller;
   final String label;
 
-  InputField({this.controller, this.label});
+  InputField({required this.controller, required this.label});
 }

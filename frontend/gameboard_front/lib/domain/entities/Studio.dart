@@ -7,12 +7,12 @@ class Studio {
   final String logoRef;
 
   Studio({
-    this.id,
-    this.name,
-    this.director,
-    this.headQuarter,
-    this.description,
-    this.logoRef,
+    required this.id,
+    required this.name,
+    required this.director,
+    required this.headQuarter,
+    required this.description,
+    required this.logoRef,
   });
 
   factory Studio.fromJson(Map<String, dynamic> json) {

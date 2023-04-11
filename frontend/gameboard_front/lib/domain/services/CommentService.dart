@@ -11,13 +11,13 @@ class CommentService {
 
   Future fetchCommentsByGameId(int gameId) async {
     final response = await http
-        .get(Helper.API_BASE_URL + "/gameboard/gamesheet/${gameId}/comments");
+        .get(Uri.parse(Helper.API_BASE_URL + "/gameboard/gamesheet/${gameId}/comments"));
     return response;
   }
 
   void createComment(Comment comment) {
     http.post(
-      Helper.API_BASE_URL + "/gameboard/comment/create",
+      Uri.parse(Helper.API_BASE_URL + "/gameboard/comment/create"),
       body: {
         "author": comment.author,
         "game_id": comment.gameId.toString(),

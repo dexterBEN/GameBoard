@@ -10,7 +10,7 @@ import 'package:gameboard_front/helpers/helper.dart';
 class LoginForm extends StatelessWidget {
   List<InputField> inputFields;
 
-  LoginForm({Key key, this.inputFields}) : super(key: key);
+  LoginForm({Key? key, required this.inputFields}) : super(key: key);
 
   FlutterSession session = FlutterSession();
   AuthService authService = AuthService();
@@ -76,9 +76,9 @@ class LoginForm extends StatelessWidget {
     childs.add(
       LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return RaisedButton(
+          return ElevatedButton(
             onPressed: () {
-              UserData userData = null;
+              UserData? userData = null;
               var pwdValue = inputFields
                   .where((element) => element.label == "password")
                   .toList()[0]
@@ -94,16 +94,16 @@ class LoginForm extends StatelessWidget {
               authService.login(loginValue, pwdValue).then((response) {
                 userData = UserData.fromJson(json.decode(response.body));
 
-                print(userData.user.email);
+                print(userData!.user.email);
 
                 setSessionData(userData);
               });
               Navigator.of(context).pushNamed('/home-page');
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            padding: EdgeInsets.all(15.0),
+            // shape: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(8.0),
+            // ),
+            // padding: EdgeInsets.all(15.0),
             child: Text(
               "Login",
               style: TextStyle(

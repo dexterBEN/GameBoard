@@ -7,7 +7,7 @@ import 'package:gameboard_front/domain/services/CommentService.dart';
 
 class CommentModel extends ChangeNotifier {
   List<Comment> comments = [];
-  String jacketB64;
+  late String jacketB64;
 
   CommentService commentService = CommentService();
 

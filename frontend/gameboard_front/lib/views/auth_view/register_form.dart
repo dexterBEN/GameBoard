@@ -11,7 +11,7 @@ class RegisterForm extends StatelessWidget {
   List<InputField> inputFields;
   final PageController pageController;
 
-  RegisterForm({Key key, this.inputFields, this.pageController})
+  RegisterForm({Key ? key, required this.inputFields, required this.pageController})
       : super(key: key);
 
   AuthService authService = AuthService();
@@ -76,7 +76,7 @@ class RegisterForm extends StatelessWidget {
     childs.add(
       LayoutBuilder(
         builder: (BuildContext context, BoxConstraints constraints) {
-          return RaisedButton(
+          return ElevatedButton(
             onPressed: () {
               var pwdValue = inputFields
                   .where((element) => element.label == "password")
@@ -103,10 +103,10 @@ class RegisterForm extends StatelessWidget {
                 pageController.jumpToPage(0);
               });
             },
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            padding: EdgeInsets.all(15.0),
+            // child: RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.circular(8.0),
+            // ),
+            // padding: EdgeInsets.all(15.0),
             child: Text(
               "Register",
               style: TextStyle(

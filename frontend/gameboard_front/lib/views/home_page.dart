@@ -12,7 +12,7 @@ import 'package:gameboard_front/views/view_model/asset_model.dart';
 import 'package:provider/provider.dart';
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key ? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -41,18 +41,18 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   getSheets() {
-    Iterable list = null;
+    Iterable? list = null;
     gameSheetService.fetchAllSheet().then((response) {
       list = json.decode(response.body);
       setState(() {
-        fetchedSheets = list.map((model) => GameSheet.fromJson(model)).toList();
+        fetchedSheets = list!.map((model) => GameSheet.fromJson(model)).toList();
         currentList = List.from(fetchedSheets);
       });
       //print(fetchedSheets);
     });
   }
 
-  List<GameSheet> filterSearch(String searchParam) {
+  List<GameSheet> ? filterSearch(String searchParam) {
     setState(() {
       currentList = fetchedSheets
           .where((element) =>

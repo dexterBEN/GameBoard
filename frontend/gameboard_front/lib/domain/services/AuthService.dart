@@ -11,7 +11,7 @@ class AuthService {
 
   Future login(String email, String password) async {
     final response = await http.post(
-      Helper.API_BASE_URL + "/gameboard/authenticate",
+      Uri.parse(Helper.API_BASE_URL + "/gameboard/authenticate"),
       body: {"email": email, "password": password},
     );
     return response;
@@ -19,7 +19,7 @@ class AuthService {
 
   Future register(String name, String email, String password) async {
     final response = await http.post(
-      Helper.API_BASE_URL + "/gameboard/register",
+      Uri.parse(Helper.API_BASE_URL + "/gameboard/register"),
       body: {"name": name, "email": email, "password": password},
     );
   }
