@@ -11,6 +11,8 @@ import com.dexlab.gameboard.service.CommentService;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,8 +30,11 @@ public class CommentController {
 
     @PostMapping(path = "gameboard/comment/create")
     @ResponseBody
-    String createComment(@RequestParam("author") String author, @RequestParam("content") String content,
-            @RequestParam("game_id") int gameId) {
+    public ResponseEntity createComment(
+        @RequestParam("author") String author, 
+        @RequestParam("content") String content,
+        @RequestParam("game_id") int gameId
+    ) {
 
         Map<String, Object> docData = new HashMap<>();
 
@@ -39,7 +44,7 @@ public class CommentController {
 
         commentService.createComment(docData);
 
-        return "ok";
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(path = "gameboard/gamesheet/{game_id}/comments")
@@ -48,9 +53,14 @@ public class CommentController {
 
         List<Comment> comments = new ArrayList<>();
         Comment comment = null;
-        int  gameId = Integer.parseInt(game_id);
+        int  gameId = 0;// default value
 
-        System.out.println(gameId);
+        try {
+            gameId = Integer.parseInt(game_id);
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
 
         try {
             

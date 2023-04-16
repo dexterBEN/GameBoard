@@ -29,20 +29,19 @@ public class AssetController {
         List<String> assetList = new ArrayList<>();
         int  gameId = Integer.parseInt(game_id);
 
-        System.out.println(gameId);
+        //System.out.println(gameId);
 
         try {
             
-            for(QueryDocumentSnapshot assetSnapShot: assetService.findAssetByGameId(gameId)){
-                assetList.add(assetSnapShot.getString("gameplay1"));
-            }
-        } catch (InterruptedException e) {
+            // for(QueryDocumentSnapshot assetSnapShot: assetService.findAssetByGameId(gameId)){
+            //     assetList.add(assetSnapShot.getString("gameplay1"));
+            // }
+
+            assetService.findAssetByGameId(gameId).forEach(assetSnapshot -> 
+                assetList.add(assetSnapshot.getString("gameplay1"))
+            );
+        } catch (Exception e) {
             // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (Exception e){
             e.printStackTrace();
         }
 

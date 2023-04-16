@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Comment {
     
-    String author;
-    String content;
-    int gameID;
+    private String author;
+    private String content;
+    private int gameID;
 
 
 
